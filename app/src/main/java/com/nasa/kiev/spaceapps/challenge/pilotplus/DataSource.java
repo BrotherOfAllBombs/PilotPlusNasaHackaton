@@ -35,12 +35,12 @@ public class DataSource {
         List<LatLng> pointsToShow = new ArrayList<>();
         pointsToShow.add(new LatLng(0, 0));
         pointsToShow.add(new LatLng(5, 5));
-        descriptions.add(new POIDescription("Some description 2 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_1), pointsToShow));
+        descriptions.add(new POIDescription("Some description 3 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_1), pointsToShow));
 
         pointsToShow = new ArrayList<>();
         pointsToShow.add(new LatLng(-3, -3));
         pointsToShow.add(new LatLng(-30, -30));
-        descriptions.add(new POIDescription("Some description 3 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_1), pointsToShow));
+        descriptions.add(new POIDescription("Some description 4 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_1), pointsToShow));
 
         point.setDescriptions(descriptions);
 

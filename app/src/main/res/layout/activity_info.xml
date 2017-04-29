@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <Button
         android:id="@+id/info_test_button"
@@ -16,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:src="@mipmap/ic_launcher"
         android:layout_weight="1"/>
-    
+
     <TextView
         android:id="@+id/info_text"
         android:layout_width="match_parent"

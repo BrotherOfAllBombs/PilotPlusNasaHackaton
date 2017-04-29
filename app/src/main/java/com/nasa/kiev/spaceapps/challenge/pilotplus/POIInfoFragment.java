@@ -46,6 +46,7 @@ public class POIInfoFragment extends Fragment {
     public void passInfo(PointOfInterest point) {
         this.pointOfInterest = point;
         drawImage(0);
+        position = 1;
     }
 
     private void drawImage(int i) {

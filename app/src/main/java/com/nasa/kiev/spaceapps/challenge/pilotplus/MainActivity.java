@@ -1,5 +1,6 @@
 package com.nasa.kiev.spaceapps.challenge.pilotplus;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -97,5 +98,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onInfoWindowClick(Marker marker) {
         infoFragment.getView().setVisibility(View.VISIBLE);
         infoFragment.passInfo((PointOfInterest)marker.getTag());
+
+        Intent i = new Intent(this, POIInfoActivity.class);
+        i.putExtra(POIInfoActivity.POINT, (PointOfInterest)marker.getTag());
     }
 }
