@@ -1,5 +1,8 @@
 package com.nasa.kiev.spaceapps.challenge.pilotplus;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GestureDetectorCompat;
@@ -11,6 +14,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.JointType;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
+import com.google.android.gms.maps.model.SquareCap;
 import com.nasa.kiev.spaceapps.challenge.pilotplus.model.POIDescription;
 import com.nasa.kiev.spaceapps.challenge.pilotplus.model.PointOfInterest;
 
@@ -22,28 +36,25 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
 
     public static final String POINT = "POINT";
     public static final int SPEED_TRIANGLE_FACTOR = 3;
+    private static final long DATA_ANIMATION_DURATION = 500;
     private PointOfInterest pointOfInterest;
     private ImageView image;
     private TextView text;
     private int position;
-    private Button button;
     private GestureDetectorCompat mDetector;
+    private View container;
+    private MapFragment mapFragment;
+    private Polyline currentWaypoints;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        container = findViewById(R.id.info_container);
         image = (ImageView) findViewById(R.id.info_image);
         text = (TextView) findViewById(R.id.info_text);
-        button = (Button) findViewById(R.id.info_test_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                outputData(position);
-                position++;
-            }
-        });
 
         mDetector = new GestureDetectorCompat(this, this);
 
@@ -66,8 +77,71 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
 
     private void outputData(int i) {
         POIDescription description = pointOfInterest.getDescriptions().get(i);
-        image.setImageResource(description.getImage().getImageId());
-        text.setText(description.getText());
+        animateToNewTextAndImage(description);
+        animateToNewMapContent(description);
+    }
+
+    private void animateToNewMapContent(final POIDescription description) {
+
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                deselect();
+                zoomToSpace(googleMap);
+                drawWaypoints(googleMap);
+            }
+
+            private void deselect() {
+                if (currentWaypoints != null) {
+                    currentWaypoints.remove();
+                    currentWaypoints = null;
+                }
+            }
+
+            private void zoomToSpace(GoogleMap googleMap) {
+                if (description.getPoints() == null) {
+                    return;
+                }
+
+                LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+
+                for (LatLng point : description.getPoints()) {
+                    boundsBuilder.include(point);
+                }
+
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 50));
+            }
+
+            private void drawWaypoints(GoogleMap googleMap) {
+                if (description.getWaypoints() == null) {
+                    return;
+                }
+
+                PolylineOptions polyline = new PolylineOptions().width(2).jointType(JointType.ROUND).startCap(new RoundCap()).endCap(new SquareCap()).color(Color.RED);
+
+                for (LatLng point : description.getWaypoints()) {
+                    polyline.add(point);
+                }
+
+                currentWaypoints = googleMap.addPolyline(polyline);
+            }
+        });
+    }
+
+    private void animateToNewTextAndImage(final POIDescription description) {
+        container.animate()
+                .alpha(0f)
+                .setDuration(DATA_ANIMATION_DURATION)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        image.setImageResource(description.getImage().getImageId());
+                        text.setText(description.getText());
+                        container.setAlpha(1);
+                    }
+                })
+                .start();
     }
 
     @Override
