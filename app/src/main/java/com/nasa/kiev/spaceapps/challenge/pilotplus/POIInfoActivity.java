@@ -2,6 +2,7 @@ package com.nasa.kiev.spaceapps.challenge.pilotplus;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -55,6 +56,15 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
         container = findViewById(R.id.info_container);
         image = (ImageView) findViewById(R.id.info_image);
         text = (TextView) findViewById(R.id.info_text);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(POIInfoActivity.this, ImageViewActivity.class);
+                i.putExtra(ImageViewActivity.IMAGE_ID, pointOfInterest.getDescriptions().get(position).getImage().getImageId());
+                startActivity(i);
+            }
+        });
 
         mDetector = new GestureDetectorCompat(this, this);
 

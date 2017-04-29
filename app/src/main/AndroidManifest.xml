@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.nasa.kiev.spaceapps.challenge.pilotplus.POIInfoActivity"/>
+        <activity android:name="com.nasa.kiev.spaceapps.challenge.pilotplus.ImageViewActivity"/>
 
 
         <meta-data
