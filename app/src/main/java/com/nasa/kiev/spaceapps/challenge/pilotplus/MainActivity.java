@@ -101,5 +101,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Intent i = new Intent(this, POIInfoActivity.class);
         i.putExtra(POIInfoActivity.POINT, (PointOfInterest)marker.getTag());
+        startActivity(i);
     }
 }
