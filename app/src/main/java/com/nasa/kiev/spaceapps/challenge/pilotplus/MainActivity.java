@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

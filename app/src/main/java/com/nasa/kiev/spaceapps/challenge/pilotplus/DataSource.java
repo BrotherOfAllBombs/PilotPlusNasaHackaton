@@ -29,11 +29,15 @@ public class DataSource {
         point.setWaypoints(waypoints);
 
         List<POIDescription> descriptions = new ArrayList<>();
-        descriptions.add(new POIDescription("Title 1", "Some description 1", new POIImage(R.drawable.image_1_1), null, null));
-        descriptions.add(new POIDescription("Title 2", "Some description 2 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_2), null, null));
-
         List<LatLng> pointsToShow = new ArrayList<>();
         List<LatLng> waypointsToShow = new ArrayList<>();
+
+        pointsToShow.add(new LatLng(30, -35));
+        pointsToShow.add(new LatLng(50, -55));
+        descriptions.add(new POIDescription("Title 1", "Some description 1", new POIImage(R.drawable.image_1_1), pointsToShow, null));
+        descriptions.add(new POIDescription("Title 2", "Some description 2 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_2), pointsToShow, null));
+
+        pointsToShow = new ArrayList<>();
         pointsToShow.add(new LatLng(0, 0));
         pointsToShow.add(new LatLng(5, 5));
         descriptions.add(new POIDescription("Title 3", "Some description 3 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_3), pointsToShow, pointsToShow));

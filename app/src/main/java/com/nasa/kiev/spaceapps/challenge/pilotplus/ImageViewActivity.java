@@ -20,5 +20,7 @@ public class ImageViewActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.image);
         int imageId = getIntent().getExtras().getInt(IMAGE_ID);
         image.setImageResource(imageId);
+
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

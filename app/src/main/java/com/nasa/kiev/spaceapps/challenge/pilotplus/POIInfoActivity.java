@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
@@ -34,7 +35,7 @@ import com.nasa.kiev.spaceapps.challenge.pilotplus.model.PointOfInterest;
  *
  */
 
-public class POIInfoActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
+public class POIInfoActivity extends AppCompatActivity implements GestureDetector.OnGestureListener, OnMapReadyCallback {
 
     public static final String POINT = "POINT";
     public static final int SPEED_TRIANGLE_FACTOR = 3;
@@ -73,13 +74,13 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
 
         pointOfInterest = getIntent().getExtras().getParcelable(POINT);
 
-        outputData(0);
-        position = 0;
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -113,6 +114,7 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
 
             private void zoomToSpace(final GoogleMap googleMap) {
                 if (description.getPoints() == null) {
+                    zoomToDefaultPlace(googleMap);
                     return;
                 }
 
@@ -139,6 +141,20 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
 
                     }
                 });
+            }
+
+            private void zoomToDefaultPlace(GoogleMap googleMap) {
+                final LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+
+                boundsBuilder.include(pointOfInterest.getPosition());
+
+                if (pointOfInterest.getWaypoints() != null) {
+                    for (LatLng point : pointOfInterest.getWaypoints()) {
+                        boundsBuilder.include(point);
+                    }
+                }
+
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 50));
             }
 
             private void drawWaypoints(GoogleMap googleMap) {
@@ -232,5 +248,28 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        /*MarkerOptions markerOptions = new MarkerOptions().position(pointOfInterest.getPosition());
+        googleMap.addMarker(markerOptions);
+
+        if (pointOfInterest.getWaypoints() != null) {
+            PolylineOptions polyline = new PolylineOptions().width(2).jointType(JointType.ROUND).startCap(new RoundCap()).endCap(new SquareCap()).color(Color.RED);
+
+            for (LatLng point : pointOfInterest.getWaypoints()) {
+                polyline.add(point);
+            }
+
+            googleMap.addPolyline(polyline);
+        }*/
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                outputData(0);
+                position = 0;
+            }
+        });
     }
 }
