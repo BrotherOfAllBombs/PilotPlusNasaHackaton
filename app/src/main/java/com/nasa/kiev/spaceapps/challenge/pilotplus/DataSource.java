@@ -52,7 +52,10 @@ public class DataSource {
         waypointsToShow.add(new LatLng(43, -47));
         waypointsToShow.add(new LatLng(43, -43));
         waypointsToShow.add(new LatLng(40, -43));
-        descriptions.add(new POIDescription("Crash site", new POIImage(R.drawable.image_1_5), pointsToShow, waypointsToShow));
+        POIDescription description = new POIDescription("Crash site", new POIImage(R.drawable.image_1_5), pointsToShow, waypointsToShow);
+        description.setBearing(270);
+        description.setTilt(90);
+        descriptions.add(description);
 
         point.setDescriptions(descriptions);
 

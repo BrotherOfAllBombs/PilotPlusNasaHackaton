@@ -15,6 +15,8 @@ import java.util.List;
 public class POIDescription implements Parcelable {
     private List<LatLng> points; //points to center the map on. Null if nothing special to center on
     private List<LatLng> waypoints; //points to draw a polyline
+    private float tilt = 0;
+    private float bearing = 0;
     private POIImage image;
     private String description;
 
@@ -41,6 +43,22 @@ public class POIDescription implements Parcelable {
         return description;
     }
 
+    public float getTilt() {
+        return tilt;
+    }
+
+    public void setTilt(float tilt) {
+        this.tilt = tilt;
+    }
+
+    public float getBearing() {
+        return bearing;
+    }
+
+    public void setBearing(float bearing) {
+        this.bearing = bearing;
+    }
+
     protected POIDescription(Parcel in) {
         if (in.readByte() == 0x01) {
             points = new ArrayList<LatLng>();
@@ -54,6 +72,8 @@ public class POIDescription implements Parcelable {
         } else {
             waypoints = null;
         }
+        tilt = in.readFloat();
+        bearing = in.readFloat();
         image = (POIImage) in.readValue(POIImage.class.getClassLoader());
         description = in.readString();
     }
@@ -77,6 +97,8 @@ public class POIDescription implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeList(waypoints);
         }
+        dest.writeFloat(tilt);
+        dest.writeFloat(bearing);
         dest.writeValue(image);
         dest.writeString(description);
     }

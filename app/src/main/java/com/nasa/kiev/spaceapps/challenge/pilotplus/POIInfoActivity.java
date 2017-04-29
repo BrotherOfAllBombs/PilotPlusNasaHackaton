@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -108,18 +109,34 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
                 }
             }
 
-            private void zoomToSpace(GoogleMap googleMap) {
+            private void zoomToSpace(final GoogleMap googleMap) {
                 if (description.getPoints() == null) {
                     return;
                 }
 
-                LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+                final LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
 
                 for (LatLng point : description.getPoints()) {
                     boundsBuilder.include(point);
                 }
 
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 50));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 50), new GoogleMap.CancelableCallback() {
+                    @Override
+                    public void onFinish() {
+                        CameraPosition cameraPosition = googleMap.getCameraPosition();
+                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.builder()
+                                                                                                    .target(cameraPosition.target)
+                                                                                                    .zoom(cameraPosition.zoom)
+                                                                                                    .tilt(description.getTilt())
+                                                                                                    .bearing(description.getBearing())
+                                                                                                    .build()));
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
             }
 
             private void drawWaypoints(GoogleMap googleMap) {
