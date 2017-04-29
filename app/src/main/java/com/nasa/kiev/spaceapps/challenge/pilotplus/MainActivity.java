@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private List<PointOfInterest> points = new DataSource().getLists();
 
     private MapFragment mapFragment;
-    private POIInfoFragment infoFragment;
     private Polyline actualWaypoints;
 
     @Override
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        infoFragment = (POIInfoFragment) getSupportFragmentManager().findFragmentById(R.id.info);
+        //infoFragment = (POIInfoFragment) getSupportFragmentManager().findFragmentById(R.id.info);
     }
 
     @Override
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapClick(LatLng latLng) {
         deselect();
-        infoFragment.getView().setVisibility(View.GONE);
     }
 
     private void deselect() {
@@ -96,9 +94,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        infoFragment.getView().setVisibility(View.VISIBLE);
-        infoFragment.passInfo((PointOfInterest)marker.getTag());
-
         Intent i = new Intent(this, POIInfoActivity.class);
         i.putExtra(POIInfoActivity.POINT, (PointOfInterest)marker.getTag());
         startActivity(i);
