@@ -18,13 +18,19 @@ public class POIDescription implements Parcelable {
     private float tilt = 0;
     private float bearing = 0;
     private POIImage image;
+    private String title;
     private String description;
 
-    public POIDescription(String description, POIImage image, List<LatLng> points, List<LatLng> waypoints) {
+    public POIDescription(String title, String description, POIImage image, List<LatLng> points, List<LatLng> waypoints) {
+        this.title = title;
         this.description = description;
         this.image = image;
         this.points = points;
         this.waypoints = waypoints;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public List<LatLng> getPoints() {
@@ -75,6 +81,7 @@ public class POIDescription implements Parcelable {
         tilt = in.readFloat();
         bearing = in.readFloat();
         image = (POIImage) in.readValue(POIImage.class.getClassLoader());
+        title = in.readString();
         description = in.readString();
     }
 
@@ -100,6 +107,7 @@ public class POIDescription implements Parcelable {
         dest.writeFloat(tilt);
         dest.writeFloat(bearing);
         dest.writeValue(image);
+        dest.writeString(title);
         dest.writeString(description);
     }
 

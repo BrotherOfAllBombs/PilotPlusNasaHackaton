@@ -41,6 +41,7 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
     private static final long DATA_ANIMATION_DURATION = 500;
     private PointOfInterest pointOfInterest;
     private ImageView image;
+    private TextView title;
     private TextView text;
     private int position;
     private GestureDetectorCompat mDetector;
@@ -56,6 +57,7 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         container = findViewById(R.id.info_container);
         image = (ImageView) findViewById(R.id.info_image);
+        title = (TextView) findViewById(R.id.info_title);
         text = (TextView) findViewById(R.id.info_text);
 
         image.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +166,7 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         image.setImageResource(description.getImage().getImageId());
+                        title.setText(description.getTitle().toUpperCase());
                         text.setText(description.getText());
                         container.setAlpha(1);
                     }
