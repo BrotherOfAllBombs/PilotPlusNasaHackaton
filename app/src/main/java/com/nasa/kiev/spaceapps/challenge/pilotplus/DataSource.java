@@ -3,6 +3,7 @@ package com.nasa.kiev.spaceapps.challenge.pilotplus;
 import com.google.android.gms.maps.model.LatLng;
 import com.nasa.kiev.spaceapps.challenge.pilotplus.model.POIDescription;
 import com.nasa.kiev.spaceapps.challenge.pilotplus.model.POIImage;
+import com.nasa.kiev.spaceapps.challenge.pilotplus.model.PlaneStatus;
 import com.nasa.kiev.spaceapps.challenge.pilotplus.model.PointOfInterest;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 
 public class DataSource {
-    public List<PointOfInterest> getLists() {
+    public static List<PointOfInterest> getLists() {
         List<PointOfInterest> points = new ArrayList<>();
 
         PointOfInterest point;
@@ -66,5 +67,15 @@ public class DataSource {
         points.add(point);
 
         return points;
+    }
+
+    public static PlaneStatus getPlaneStatus() {
+        LatLng currentPosition = new LatLng(41.5, -50.1);
+        List<LatLng> waypoints = new ArrayList<>();
+        waypoints.add(new LatLng(40.7, -74));
+        waypoints.add(new LatLng(42, -50));
+        waypoints.add(new LatLng(38, -30));
+        waypoints.add(new LatLng(40.4, -3.7));
+        return new PlaneStatus(currentPosition, waypoints);
     }
 }
