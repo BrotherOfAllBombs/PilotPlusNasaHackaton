@@ -82,6 +82,9 @@ public class DataSource {
 
         points.add(point);
 
+        point = new PointOfInterest("U-869 - невезучая \"девятка\"", new LatLng(39.5, -73));
+        points.add(point);
+
         return points;
     }
 

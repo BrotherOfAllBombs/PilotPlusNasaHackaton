@@ -94,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
             private void drawWaypoints(GoogleMap googleMap) {
+                if (waypoints == null) {
+                    return;
+                }
+
                 PolylineOptions polyline = new PolylineOptions().width(2).jointType(JointType.ROUND).startCap(new RoundCap()).endCap(new SquareCap()).color(Color.RED);
 
                 for (LatLng point : waypoints) {
