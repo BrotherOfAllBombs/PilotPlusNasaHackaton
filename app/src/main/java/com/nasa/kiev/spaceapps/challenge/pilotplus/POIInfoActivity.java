@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -60,15 +61,16 @@ public class POIInfoActivity extends AppCompatActivity implements GestureDetecto
         image = (ImageView) findViewById(R.id.info_image);
         title = (TextView) findViewById(R.id.info_title);
         text = (TextView) findViewById(R.id.info_text);
+        text.setMovementMethod(new ScrollingMovementMethod());
 
-        image.setOnClickListener(new View.OnClickListener() {
+        /*image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(POIInfoActivity.this, ImageViewActivity.class);
                 i.putExtra(ImageViewActivity.IMAGE_ID, pointOfInterest.getDescriptions().get(position).getImage().getImageId());
                 startActivity(i);
             }
-        });
+        });*/
 
         mDetector = new GestureDetectorCompat(this, this);
 
