@@ -18,7 +18,7 @@ public class DataSource {
         List<PointOfInterest> points = new ArrayList<>();
 
         PointOfInterest point;
-        point = new PointOfInterest("Titanic", new LatLng(41.726931, -49.948253));
+        point = new PointOfInterest("Последнее путешествие \"Титаника\"", new LatLng(41.726931, -49.948253));
 
         List<LatLng> waypoints = new ArrayList<>();
         waypoints.add(new LatLng(0, 0));
@@ -36,12 +36,16 @@ public class DataSource {
         pointsToShow.add(new LatLng(30, -35));
         pointsToShow.add(new LatLng(50, -55));
         descriptions.add(new POIDescription("Title 1", "Some description 1", new POIImage(R.drawable.image_1_1), pointsToShow, null));
-        descriptions.add(new POIDescription("Title 2", "Some description 2 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_2), pointsToShow, null));
+
+        pointsToShow = new ArrayList<>();
+        pointsToShow.add(new LatLng(54.5, -5.8));
+        pointsToShow.add(new LatLng(54.75, -6));
+        descriptions.add(new POIDescription("Строительство", "Титаник строился на верфи Белфаста и был спущен на воду в 1911 году. Корпус корабля скрепляли свыше трёх миллионов заклёпок, 75% из которых были забиты вручную.", new POIImage(R.drawable.image_1_2_building), pointsToShow, null));
 
         pointsToShow = new ArrayList<>();
         pointsToShow.add(new LatLng(0, 0));
         pointsToShow.add(new LatLng(5, 5));
-        descriptions.add(new POIDescription("Title 3", "Some description 3 very very very very very very very very very very very very very very very very very long", new POIImage(R.drawable.image_1_3), pointsToShow, pointsToShow));
+        descriptions.add(new POIDescription("Сердце \"Титаника\"", "«Титаник» был оборудован двумя четырехцилиндровыми паровыми машинами и паровой турбиной. Вся силовая установка обладала мощностью 55 000 л. с. Корабль мог развивать скорость до 23 узлов (42 км/ч)", new POIImage(R.drawable.image_1_3), pointsToShow, pointsToShow));
 
         pointsToShow = new ArrayList<>();
         pointsToShow.add(new LatLng(-3, -3));
@@ -74,7 +78,7 @@ public class DataSource {
         List<LatLng> waypoints = new ArrayList<>();
         waypoints.add(new LatLng(40.7, -74));
         waypoints.add(new LatLng(42, -50));
-        waypoints.add(new LatLng(38, -30));
+        waypoints.add(new LatLng(42, -30));
         waypoints.add(new LatLng(40.4, -3.7));
         return new PlaneStatus(currentPosition, waypoints);
     }
